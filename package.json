@@ -1,6 +1,6 @@
 {
   "name": "moviesearch",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -8,7 +8,17 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:prod": "ng build --prod",
+    "clean:target": "sudo rm -R $npm_package_config_target_dir/*",
+    "clean": "npm-run-all clean:*",
+    "deploy:html": "sudo cp $npm_package_config_out_dir/*.html $npm_package_config_target_dir/",
+    "deploy:css": "sudo cp $npm_package_config_out_dir/*.css $npm_package_config_target_dir/ && sudo cp $npm_package_config_out_dir/*.css.gz $npm_package_config_target_dir/",
+    "deploy:js": "sudo cp $npm_package_config_out_dir/*.js $npm_package_config_target_dir/ && sudo cp $npm_package_config_out_dir/*.js.gz $npm_package_config_target_dir/",
+    "deploy:icon": "sudo cp $npm_package_config_out_dir/favicon.ico $npm_package_config_target_dir/",
+    "deploy:images": "sudo cp -R public/images $npm_package_config_target_dir/",
+    "deploy:htaccess": "sudo cp _htaccess.dist $npm_package_config_target_dir/.htaccess",
+    "deploy": "npm-run-all deploy:*"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +34,7 @@
     "@angular/router": "^4.0.0",
     "angular2-infinite-scroll": "^0.3.4",
     "core-js": "^2.4.1",
+    "npm-run-all": "^4.0.2",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },

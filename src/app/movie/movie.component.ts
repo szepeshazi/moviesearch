@@ -14,10 +14,11 @@ import { Movie } from './model/movie';
 export class MovieComponent implements OnInit, OnDestroy {
 
 	private searchTerms = new Subject<string>();
-	private searchInProgress = false;
-	private searchResult: SearchResult;
-
 	private subscriptions: Subscription[] = [];
+
+	public searchInProgress = false;
+	public searchResult: SearchResult;
+
 
 	constructor(private movieService: MovieService) { }
 

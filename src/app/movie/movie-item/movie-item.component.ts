@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
 })
 export class MovieItemComponent {
     
-    @Input() entity: Movie;
+    @Input() public entity: Movie;
 
     constructor(private router: Router) {
 

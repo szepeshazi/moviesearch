@@ -11,7 +11,7 @@ import { Component } from '@angular/core';
 })
 export class MovieDetailComponent implements OnInit {
 
-    private movieDetail: MovieDetail;
+    public movieDetail: MovieDetail;
 
     constructor(private movieService: MovieService, private currentRoute: ActivatedRoute) { }
 

@@ -11,9 +11,15 @@ export class MovieService {
 
     constructor(private http: Http) { }
 
-    getById(imdbId: string): MovieDetail {
-
-        return {} as MovieDetail;
+    getById(imdbId: string): Observable<MovieDetail> {
+        let requestParams = "?i=" + encodeURIComponent(imdbId);
+        return this.http.get(this.serviceURL + requestParams)
+            .map(response => {
+                let responseObj = response.json();
+                let movieDetail = MovieDetail.createFromServerResponse(responseObj);
+                return movieDetail;
+            })
+            .catch(error => Observable.throw(error.message));
     }
 
     search(expression: string, page?: number) : Observable<SearchResult> {

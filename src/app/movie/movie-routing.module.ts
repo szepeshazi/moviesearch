@@ -1,9 +1,11 @@
+import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 import { MovieComponent } from './movie.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const movieRoutes: Routes = [
     { path: '', component: MovieComponent },
+    { path: 'show/:id',  component: MovieDetailComponent }
 ];
 
 @NgModule({

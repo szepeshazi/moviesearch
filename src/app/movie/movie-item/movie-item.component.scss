@@ -1,7 +1,9 @@
 md-card {
-    width: 320px;
+    width: 256px;
 
     img {
+        max-width: 256px;
+        margin: 5px auto;
         &:hover {
             cursor: pointer;
         }

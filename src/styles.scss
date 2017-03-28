@@ -12,6 +12,9 @@ body {
 
 div.flex-container {
     display: flex;
+    @media (max-width: 750px) {
+        justify-content: space-around;
+    }
 }
 
 div.flex-container.wrap {

@@ -17,6 +17,6 @@ export class MovieItemComponent {
     }
 
     navigateTo(entity: Movie) {
-        this.router.navigate(["movie", "show"]);
+        this.router.navigate(["/movie", "show", entity.imdbId]);
     }
 }

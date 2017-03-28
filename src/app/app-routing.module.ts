@@ -1,10 +1,8 @@
-import { MovieComponent } from './movie/movie.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const appRoutes: Routes = [
-//	{ path: 'movie', loadChildren: 'app/movie/movie.module#MovieModule' },
-	{ path: 'movie', component: MovieComponent },
+	{ path: 'movie', loadChildren: 'app/movie/movie.module#MovieModule' },
 	{ path: '', redirectTo: '/movie', pathMatch: 'full' },
 ];
 

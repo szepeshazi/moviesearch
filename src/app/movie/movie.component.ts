@@ -9,8 +9,7 @@ import { Movie } from './model/movie';
 
 @Component({
 	templateUrl: './movie.component.html',
-	styleUrls: ['./movie.component.scss'],
-	providers: [MovieService]
+	styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit, OnDestroy {
 

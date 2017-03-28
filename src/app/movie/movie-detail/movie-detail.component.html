@@ -1,0 +1,42 @@
+<md-card *ngIf="movieDetail !== undefined">
+    <h1>{{ movieDetail.title }} ({{ movieDetail.year }})</h1>
+    <h4>{{ movieDetail.plot }}</h4>
+    <div class="flex-container center wrap">
+        <div class="flex-item">
+            <img *ngIf="movieDetail.poster; else noposter" [src]="movieDetail.poster" title="Poster" alt="{{ movieDetail.title }}">
+            <ng-template #noposter>
+                <img src="/assets/images/no-image.png" title="No poster available" alt="{{ movieDetail.title }}">
+            </ng-template>
+        </div>
+        <div class="flex-item">
+            <div class="flex-container vertical">
+                <div class="label">Director</div>
+                <div class="content">{{ movieDetail.director }}</div>
+                <div class="label">Writer</div>
+                <div class="content">{{ movieDetail.writer }}</div>
+                <div class="label">Actors</div>
+                <div *ngFor="let actor of movieDetail.actors" class="content">{{ actor }}</div>
+                <div class="label">Rated</div>
+                <div class="content">{{ movieDetail.rated }}</div>
+                <div class="label">Released</div>
+                <div class="content">{{ movieDetail.released }}</div>
+                <div class="label">Runtime (mins)</div>
+                <div class="content">{{ movieDetail.runtime }}</div>
+                <div class="label">Genre</div>
+                <div *ngFor="let genre of movieDetail.genre" class="content">{{ genre }}</div>
+                <div class="label">Type</div>
+                <div class="content">{{ movieDetail.type }}</div>
+                <div class="label">Languages</div>
+                <div *ngFor="let language of movieDetail.languages" class="content">{{ language }}</div>
+                <div class="label">Countries</div>
+                <div *ngFor="let country of movieDetail.countries" class="content">{{ country }}</div>
+                <div class="label">Awards</div>
+                <div class="content">{{ movieDetail.awards }}</div>
+                <div class="label">Metascore</div>
+                <div class="content">{{ movieDetail.metascore }}</div>
+                <div class="label">IMDB rating</div>
+                <div class="content">{{ movieDetail.imdbRating }} ({{ movieDetail.imdbVotes}} votes)</div>
+            </div>
+        </div>
+    </div>
+</md-card>

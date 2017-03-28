@@ -1,0 +1,25 @@
+md-card {
+    width: 320px;
+
+    img {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    div.title {
+        padding: 10px 5px;
+
+        &:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+    }
+
+
+
+    div.type {
+        font-size: 0.8em;
+        text-align: end;
+    }
+}

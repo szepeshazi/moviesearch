@@ -1,0 +1,15 @@
+<div class="flex-container vertical">
+	<div class="flex-container center search-box">
+		<md-input-container>
+			<input mdInput #searchBox placeholder="Enter movie title..." (keyup)="search(searchBox.value)">
+		</md-input-container>
+		<md-spinner *ngIf="searchInProgress; else placeholder"></md-spinner>
+		<ng-template #placeholder>
+			<div class="search-placeholder"></div>
+		</ng-template>
+	</div>
+	<div *ngIf="searchResult !== undefined" class="flex-container wrap" infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="300"
+	 (scrolled)="onScroll()">
+		<movie-item *ngFor="let movie of searchResult.movies" [entity]="movie"></movie-item>
+	</div>
+</div>

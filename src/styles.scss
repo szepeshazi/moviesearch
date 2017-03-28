@@ -1,0 +1,39 @@
+html {
+    font-size: 62.5%; /* with the standard base font size of 16px this will be equal to 10px */
+}
+
+body {
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-size: 160%; /* 160% of 10px ~ 16px, understood by all browsers */
+    font-size: 1.6rem; /* 1.6 * 10px ~ 16px, understood by all major browsers and IE9+ */
+}
+
+/* Flex containers */
+
+div.flex-container {
+    display: flex;
+}
+
+div.flex-container.wrap {
+    flex-wrap: wrap;
+}
+
+
+div.flex-container.center {
+    justify-content: center;
+}
+
+div.flex-container.vertical {
+    flex-direction: column;
+}
+
+div.flex-item {
+    margin: 10px 25px;
+    @media (max-width: 750px) {
+        margin: 10px;
+    }
+}
+
+.flex-filler {
+  flex: 1 1 auto;
+}

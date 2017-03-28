@@ -1,0 +1,23 @@
+md-toolbar {
+    h3 {
+        text-align: center;
+        max-width: 800px;
+        margin: 0px auto;
+    }
+
+}
+
+div.header {
+
+    .banner {
+        background: url('/assets/images/movies.jpg');
+        width: 657px;
+        height: 230px;
+        margin-top: 10px;
+        @media (max-width: 660px) {
+            background: url('/assets/images/movies.small.jpg');
+            width: 320px;
+            height: 230px;
+        }
+    }
+}

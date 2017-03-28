@@ -1,0 +1,21 @@
+div.search-box {
+    md-input-container {
+        margin-top: 15px;
+        min-width: 320px;
+        @media (max-width: 370px) {
+            min-width: 0px;
+        }
+    }
+    
+    md-spinner {
+        width: 24px !important;
+        height: 24px !important;
+        margin: 25px 0px 0px 10px !important;
+    }
+    
+    div.search-placeholder {
+        width: 24px;
+        height: 24px;
+        margin: 25px 0px 0px 10px;
+    }
+}

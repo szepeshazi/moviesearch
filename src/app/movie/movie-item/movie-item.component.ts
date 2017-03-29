@@ -17,4 +17,9 @@ export class MovieItemComponent {
     navigateTo(entity: Movie) {
         this.router.navigate(["/movie", "show", entity.imdbId]);
     }
+
+    retryImage() {
+        this.entity.imageUrl = undefined;
+        this.entity.imageRetryCount++;
+    }
 }

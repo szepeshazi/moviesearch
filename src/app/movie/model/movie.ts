@@ -6,6 +6,9 @@ export class Movie {
     type: string;
     poster: string;
 	imageUrl: string = undefined;
+	imageRetryCount : number = 0;
+
+	static readonly maxImageRetries = 2;
 
 	static createFromServerResponse(item) : Movie {
 		let movie = new Movie();

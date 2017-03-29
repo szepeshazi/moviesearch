@@ -104,7 +104,9 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 	startImageTimer(): void {
 		this.imageTimer = setInterval(() => {
 			if (this.searchResult !== undefined && this.searchResult.movies.length > 0) {
-				let index = this.searchResult.movies.findIndex(movie => movie.poster !== undefined && movie.imageUrl === undefined);
+				let index = this.searchResult.movies.findIndex(
+					movie => ((movie.poster !== undefined) && (movie.imageUrl === undefined) && (movie.imageRetryCount < Movie.maxImageRetries))
+				);
 				if (index === -1) {
 					clearInterval(this.imageTimer);
 					this.imageTimer = undefined;

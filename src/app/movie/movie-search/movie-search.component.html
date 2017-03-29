@@ -3,8 +3,8 @@
 		<md-input-container>
 			<input mdInput #searchBox placeholder="Enter movie title..." (keyup)="search(searchBox.value)">
 		</md-input-container>
-		<md-spinner *ngIf="searchInProgress; else placeholder"></md-spinner>
-		<ng-template #placeholder>
+		<md-spinner *ngIf="isSearchInProgress(); else spinner_placeholder"></md-spinner>
+		<ng-template #spinner_placeholder>
 			<div class="search-placeholder"></div>
 		</ng-template>
 	</div>

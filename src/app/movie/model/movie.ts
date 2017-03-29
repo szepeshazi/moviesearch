@@ -2,9 +2,10 @@
 export class Movie {
     title: string;
     year: string;
-    imdbId: number;
+    imdbId: string;
     type: string;
     poster: string;
+	imageUrl: string = undefined;
 
 	static createFromServerResponse(item) : Movie {
 		let movie = new Movie();
@@ -13,7 +14,9 @@ export class Movie {
 		movie.imdbId = item.imdbID;
 		movie.type = item.Type === "N/A" ? undefined : item.Type;
 		movie.poster = item.Poster === "N/A" ? undefined : item.Poster;
-
+		if (sessionStorage.getItem(movie.imdbId)) {
+			movie.imageUrl = movie.poster;
+		}
 		return movie;
 	}
 }

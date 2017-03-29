@@ -1,8 +1,8 @@
 <div class="flex-item">
     <md-card>
-        <img *ngIf="entity.poster; else noposter" [src]="entity.poster" title="Poster" alt="{{ entity.title }}" (click)="navigateTo(entity)">
+        <img *ngIf="entity.imageUrl; else noposter" [src]="entity.imageUrl" title="Poster" alt="{{ entity.title }}" (click)="navigateTo(entity)">
         <ng-template #noposter>
-            <img  src="/assets/images/no-image.png" title="No poster available" alt="{{ entity.title }}" (click)="navigateTo(entity)">
+            <img  src="/assets/images/no-image.png" title="Poster" alt="{{ entity.title }}" (click)="navigateTo(entity)">
         </ng-template>
         <div class="title" (click)="navigateTo(entity)">{{ entity.title }} ({{ entity.year }})</div>
         <div class="type">{{ entity.type }}</div>

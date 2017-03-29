@@ -3,7 +3,7 @@
     <h4>{{ movieDetail.plot }}</h4>
     <div class="flex-container center wrap">
         <div class="flex-item">
-            <img *ngIf="movieDetail.poster; else noposter" [src]="movieDetail.poster" title="Poster" alt="{{ movieDetail.title }}">
+            <img *ngIf="movieDetail.poster; else noposter" [src]="movieDetail.poster" title="Poster" alt="{{ movieDetail.title }}" (error)="movieDetail.poster = undefined">
             <ng-template #noposter>
                 <img src="/assets/images/no-image.png" title="No poster available" alt="{{ movieDetail.title }}">
             </ng-template>

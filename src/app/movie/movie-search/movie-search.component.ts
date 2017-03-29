@@ -1,8 +1,7 @@
 import { Movie } from '../model/movie';
 import { SearchResult } from '../model/search-result';
 import { MovieService } from '../movie.service';
-import { Component, OnInit } from '@angular/core';
-import { OnDestroy } from '@angular/core/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject, Subscription } from 'rxjs/Rx';
 
 
@@ -19,11 +18,24 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 	private imageTimer = undefined;
 	private readonly imageInterval = 500;
 
+	@ViewChild("searchBox") searchBoxRef;
+
 	public searchResult: SearchResult;
 
 	constructor(private movieService: MovieService) { }
 
 	ngOnInit() {
+		let previousSearch = sessionStorage.getItem("searchResult");
+		if (previousSearch) {
+			try {
+				this.searchResult = JSON.parse(previousSearch);
+				if (this.searchResult.term) {
+					this.searchBoxRef.nativeElement.value = this.searchResult.term;
+				}
+			} catch (error) {
+				this.searchResult = undefined;
+			}
+		}
 		this.subscribeToSearch();
 	}
 
@@ -35,6 +47,14 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 			clearInterval(this.imageTimer);
 			this.imageTimer = undefined;
 		}
+		if (this.searchResult) {
+			try {
+				let currentSearch = JSON.stringify(this.searchResult);
+				sessionStorage.setItem("searchResult", currentSearch);
+			} catch (error) {
+				sessionStorage.removeItem("searchResult");
+			}
+		}
 	}
 
 	subscribeToSearch() {
@@ -42,6 +62,9 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 			.debounceTime(300)
 			.distinctUntilChanged()
 			.subscribe(term => {
+				if (term.length === 0) {
+					return;
+				}
 				if (this.currentHttpRequest !== undefined && !this.currentHttpRequest.closed) {
 					this.currentHttpRequest.unsubscribe();
 				}
@@ -60,13 +83,18 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 	search(term: string): void {
 		if (term.length === 0) {
 			this.searchResult = undefined;
+			sessionStorage.removeItem("searchResult");
+			if (this.currentHttpRequest !== undefined && !this.currentHttpRequest.closed) {
+				this.currentHttpRequest.unsubscribe();
+			}
+			this.currentHttpRequest = undefined;
 			if (this.imageTimer !== undefined) {
 				clearInterval(this.imageTimer);
 				this.imageTimer = undefined;
 			}
-		} else {
-			this.searchTerms.next(term);
 		}
+		this.searchTerms.next(term);
+
 	}
 
 	isSearchInProgress(): boolean {

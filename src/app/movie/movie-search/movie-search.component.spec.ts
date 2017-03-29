@@ -1,25 +1,72 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MovieService } from '../movie.service';
+import { FakeMovieService } from '../testing/fake-movie.service';
 import { MovieSearchComponent } from './movie-search.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
-describe('MovieComponent', () => {
-  let component: MovieSearchComponent;
-  let fixture: ComponentFixture<MovieSearchComponent>;
+describe('MovieSearchComponent', () => {
+	let component: MovieSearchComponent;
+	let fixture: ComponentFixture<MovieSearchComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MovieSearchComponent ]
-    })
-    .compileComponents();
-  }));
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+			imports: [InfiniteScrollModule],
+			declarations: [MovieSearchComponent],
+			providers: [
+				{ provide: MovieService, useClass: FakeMovieService },
+			],
+			schemas: [CUSTOM_ELEMENTS_SCHEMA]
+		}).compileComponents();
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MovieSearchComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	}));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	beforeEach(() => {
+		fixture = TestBed.createComponent(MovieSearchComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
+
+	it('should create the search component', () => {
+		expect(component).toBeTruthy();
+	});
+
+	it('should have an input field for entering search expressions', () => {
+		let input = fixture.debugElement.query(By.css('input#searchBox')).nativeElement;
+		expect(input).toBeTruthy();
+	});
+
+	it('should display empty list for empty search expression', fakeAsync(() => {
+		let input = fixture.debugElement.query(By.css('input#searchBox'));
+		input.nativeElement.value = "";
+		input.triggerEventHandler("keyup", input.nativeElement.value);
+
+		// Simulate pause in typing
+		tick(500);
+
+		// Get rid of other background tasks (i.e. image loader)
+		discardPeriodicTasks();
+		fixture.detectChanges();
+		let de = fixture.debugElement.query(By.css('div#search-results'));
+		expect(de).toBeFalsy("There should not be a search results div for empty search expression");
+	}));
+
+	it('should display 3 fake results for the search expression "batman"', fakeAsync(() => {
+		let input = fixture.debugElement.query(By.css('input#searchBox'));
+		input.nativeElement.value = "batman";
+		input.triggerEventHandler("keyup", input.nativeElement.value);
+
+		// Simulate pause in typing
+		tick(500);
+
+		// Get rid of other background tasks (i.e. image loader)
+		discardPeriodicTasks();
+		fixture.detectChanges();
+		let de = fixture.debugElement.query(By.css('div#search-results'));
+		expect(de).toBeTruthy("There should be a search results div");
+		let movieItems = fixture.debugElement.queryAll(By.css('movie-item'));
+		expect(movieItems.length).toEqual(3, "Component should display 3 Batman movies");
+	}));
+
 });

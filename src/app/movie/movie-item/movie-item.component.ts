@@ -12,9 +12,7 @@ export class MovieItemComponent {
     
     @Input() public entity: Movie;
 
-    constructor(private router: Router) {
-
-    }
+    constructor(private router: Router) { }
 
     navigateTo(entity: Movie) {
         this.router.navigate(["/movie", "show", entity.imdbId]);

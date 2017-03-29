@@ -15,8 +15,8 @@ export class MovieComponent implements OnInit, OnDestroy {
 
 	private searchTerms = new Subject<string>();
 	private subscriptions: Subscription[] = [];
+	private currentHttpRequest : Subscription;
 
-	public searchInProgress = false;
 	public searchResult: SearchResult;
 
 
@@ -37,11 +37,13 @@ export class MovieComponent implements OnInit, OnDestroy {
 			.debounceTime(300)
 			.distinctUntilChanged()
 			.subscribe(term => {
-				this.searchInProgress = true;
-				this.movieService.search(term).subscribe(
+				if (this.currentHttpRequest !== undefined && !this.currentHttpRequest.closed) {
+					this.currentHttpRequest.unsubscribe();
+				}
+				this.currentHttpRequest = this.movieService.search(term).subscribe(
 					searchResult => {
 						this.searchResult = searchResult;
-						this.searchInProgress = false;
+						this.currentHttpRequest = undefined;
 					});
 			});
 		this.subscriptions.push(searchSubscription);
@@ -55,15 +57,19 @@ export class MovieComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	isSearchInProgress() : boolean {
+		return this.currentHttpRequest !== undefined && !this.currentHttpRequest.closed;
+	}
+
 	onScroll() {
-		if (this.searchResult !== undefined && !this.searchInProgress) {
+		if (this.searchResult !== undefined && !this.isSearchInProgress()) {
 			let currentPage = Math.floor((this.searchResult.movies.length - 1) / SearchResult.pageSize) + 1;
 			if (currentPage * SearchResult.pageSize < this.searchResult.totalResults) {
-				this.movieService.search(this.searchResult.term, currentPage + 1).subscribe(
+				this.currentHttpRequest = this.movieService.search(this.searchResult.term, currentPage + 1).subscribe(
 					pageResult => {
 						this.searchResult.totalResults = Number(pageResult.totalResults);
 						this.searchResult.movies = this.searchResult.movies.concat(pageResult.movies);
-						this.searchInProgress = false;
+						this.currentHttpRequest = undefined;
 					});
 			}
 		}

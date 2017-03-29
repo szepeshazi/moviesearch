@@ -1,10 +1,10 @@
+import { MovieSearchComponent } from './movie-search/movie-search.component';
 import { MovieDetailComponent } from './movie-detail/movie-detail.component';
-import { MovieComponent } from './movie.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const movieRoutes: Routes = [
-    { path: '', component: MovieComponent },
+    { path: '', component: MovieSearchComponent },
     { path: 'show/:id',  component: MovieDetailComponent }
 ];
 

@@ -1,17 +1,17 @@
-import { SearchResult } from './model/search-result';
-import { MovieService } from './movie.service';
+import { SearchResult } from '../model/search-result';
+import { MovieService } from '../movie.service';
 import { Services } from '@angular/core/src/view';
 import { OnDestroy } from '@angular/core/core';
 import { Subject, Subscription } from 'rxjs/Rx';
 import { Component, OnInit } from '@angular/core';
 
-import { Movie } from './model/movie';
+import { Movie } from '../model/movie';
 
 @Component({
-	templateUrl: './movie.component.html',
-	styleUrls: ['./movie.component.scss']
+	templateUrl: './movie-search.component.html',
+	styleUrls: ['./movie-search.component.scss']
 })
-export class MovieComponent implements OnInit, OnDestroy {
+export class MovieSearchComponent implements OnInit, OnDestroy {
 
 	private searchTerms = new Subject<string>();
 	private subscriptions: Subscription[] = [];

@@ -1,12 +1,12 @@
-import { By } from '@angular/platform-browser';
-import { UrlSegment } from '@angular/router/router';
 import { MovieService } from '../movie.service';
 import { FakeMovieService } from '../testing/fake-movie.service';
 import { MovieDetailComponent } from './movie-detail.component';
 import { it } from '@angular/cli/lib/ast-tools/spec-utils';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { UrlSegment } from '@angular/router/router';
 import { Observable } from 'rxjs/Rx';
 
 describe('MovieDetailComponent', () => {

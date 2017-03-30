@@ -5,9 +5,10 @@ export class Movie {
     imdbId: string;
     type: string;
     poster: string;
+
+	// Virtual properties for multiple attempts at loading images - IMDB throttles img requests coming through a referral site
 	imageUrl: string = undefined;
 	imageRetryCount : number = 0;
-
 	static readonly maxImageRetries = 2;
 
 	static createFromServerResponse(item) : Movie {

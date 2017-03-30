@@ -12,12 +12,12 @@ export class FakeMovieService {
     ];
 
     movieDetail: MovieDetail = {
-        title: "Batman begins", 
-        year: "2005", 
-        imdbId: "tt0372784", 
-        type: "movie", 
-        poster: "https://images-na.ssl-images-amazon.com/images/M/MV5BNTM3OTc0MzM2OV5BMl5BanBnXkFtZTYwNzUwMTI3._V1_SX300.jpg", 
-        imageUrl: undefined, 
+        title: "Batman begins",
+        year: "2005",
+        imdbId: "tt0372784",
+        type: "movie",
+        poster: "https://images-na.ssl-images-amazon.com/images/M/MV5BNTM3OTc0MzM2OV5BMl5BanBnXkFtZTYwNzUwMTI3._V1_SX300.jpg",
+        imageUrl: undefined,
         imageRetryCount: 0,
         actors: ['Jackie Chan'],
         awards: "No awards",
@@ -36,15 +36,13 @@ export class FakeMovieService {
 
     };
 
-    constructor() {
-     }
+    constructor() { }
 
     getById(imdbId: string): Observable<MovieDetail> {
         return Observable.of(this.movieDetail);
     }
 
-    search(expression: string, page?: number) : Observable<SearchResult> {
-        console.log("search called with", expression);
+    search(expression: string, page?: number): Observable<SearchResult> {
         let searchResult = new SearchResult();
         searchResult.term = expression;
         if (expression.toLocaleLowerCase() === "batman") {

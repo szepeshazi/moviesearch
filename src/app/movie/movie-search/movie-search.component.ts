@@ -102,6 +102,7 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 	}
 
 	startImageTimer(): void {
+		// Delay image loads to offset IMDB throttling of img requests coming through a referral site
 		this.imageTimer = setInterval(() => {
 			if (this.searchResult !== undefined && this.searchResult.movies.length > 0) {
 				let index = this.searchResult.movies.findIndex(

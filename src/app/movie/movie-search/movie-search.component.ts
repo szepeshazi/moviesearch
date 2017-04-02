@@ -18,14 +18,14 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 	private imageTimer = undefined;
 	private readonly imageInterval = 500;
 
-	@ViewChild("searchBox") searchBoxRef;
+	@ViewChild('searchBox') searchBoxRef;
 
 	public searchResult: SearchResult;
 
 	constructor(private movieService: MovieService) { }
 
 	ngOnInit() {
-		let previousSearch = sessionStorage.getItem("searchResult");
+		const previousSearch = sessionStorage.getItem('searchResult');
 		if (previousSearch) {
 			try {
 				this.searchResult = JSON.parse(previousSearch);
@@ -40,7 +40,7 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		for (let subscription of this.subscriptions) {
+		for (const subscription of this.subscriptions) {
 			subscription.unsubscribe();
 		}
 		if (this.imageTimer !== undefined) {
@@ -49,16 +49,16 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 		}
 		if (this.searchResult) {
 			try {
-				let currentSearch = JSON.stringify(this.searchResult);
-				sessionStorage.setItem("searchResult", currentSearch);
+				const currentSearch = JSON.stringify(this.searchResult);
+				sessionStorage.setItem('searchResult', currentSearch);
 			} catch (error) {
-				sessionStorage.removeItem("searchResult");
+				sessionStorage.removeItem('searchResult');
 			}
 		}
 	}
 
 	subscribeToSearch() {
-		let searchSubscription = this.searchTerms.asObservable()
+		const searchSubscription = this.searchTerms.asObservable()
 			.debounceTime(300)
 			.distinctUntilChanged()
 			.subscribe(term => {
@@ -83,7 +83,7 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 	search(term: string): void {
 		if (term.length === 0) {
 			this.searchResult = undefined;
-			sessionStorage.removeItem("searchResult");
+			sessionStorage.removeItem('searchResult');
 			if (this.currentHttpRequest !== undefined && !this.currentHttpRequest.closed) {
 				this.currentHttpRequest.unsubscribe();
 			}
@@ -105,16 +105,16 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 		// Delay image loads to offset IMDB throttling of img requests coming through a referral site
 		this.imageTimer = setInterval(() => {
 			if (this.searchResult !== undefined && this.searchResult.movies.length > 0) {
-				let index = this.searchResult.movies.findIndex(
+				const index = this.searchResult.movies.findIndex(
 					movie => ((movie.poster !== undefined) && (movie.imageUrl === undefined) && (movie.imageRetryCount < Movie.maxImageRetries))
 				);
 				if (index === -1) {
 					clearInterval(this.imageTimer);
 					this.imageTimer = undefined;
 				} else {
-					let movie: Movie = this.searchResult.movies[index];
+					const movie: Movie = this.searchResult.movies[index];
 					this.searchResult.movies[index] = Object.assign(new Movie(), movie, { imageUrl: movie.poster });
-					sessionStorage.setItem(movie.imdbId, "y");
+					sessionStorage.setItem(movie.imdbId, 'y');
 				}
 			}
 		}, this.imageInterval);
@@ -122,7 +122,7 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 
 	onScroll(): void {
 		if (this.searchResult !== undefined && !this.isSearchInProgress()) {
-			let currentPage = Math.floor((this.searchResult.movies.length - 1) / SearchResult.pageSize) + 1;
+			const currentPage = Math.floor((this.searchResult.movies.length - 1) / SearchResult.pageSize) + 1;
 			if (currentPage * SearchResult.pageSize < this.searchResult.totalResults) {
 				this.currentHttpRequest = this.movieService.search(this.searchResult.term, currentPage + 1).subscribe(
 					pageResult => {

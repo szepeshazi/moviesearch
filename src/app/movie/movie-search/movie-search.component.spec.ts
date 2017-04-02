@@ -33,14 +33,14 @@ describe('MovieSearchComponent', () => {
 	});
 
 	it('should have an input field for entering search expressions', () => {
-		let input = fixture.debugElement.query(By.css('input#searchBox')).nativeElement;
+		const input = fixture.debugElement.query(By.css('input#searchBox')).nativeElement;
 		expect(input).toBeTruthy();
 	});
 
 	it('should display empty list for empty search expression', fakeAsync(() => {
-		let input = fixture.debugElement.query(By.css('input#searchBox'));
-		input.nativeElement.value = "";
-		input.triggerEventHandler("keyup", input.nativeElement.value);
+		const input = fixture.debugElement.query(By.css('input#searchBox'));
+		input.nativeElement.value = '';
+		input.triggerEventHandler('keyup', input.nativeElement.value);
 
 		// Simulate pause in typing
 		tick(500);
@@ -48,14 +48,14 @@ describe('MovieSearchComponent', () => {
 		// Get rid of other background tasks (i.e. image loader)
 		discardPeriodicTasks();
 		fixture.detectChanges();
-		let de = fixture.debugElement.query(By.css('div#search-results'));
-		expect(de).toBeFalsy("There should not be a search results div for empty search expression");
+		const de = fixture.debugElement.query(By.css('div#search-results'));
+		expect(de).toBeFalsy('There should not be a search results div for empty search expression');
 	}));
 
 	it('should display 3 fake results for the search expression "batman"', fakeAsync(() => {
-		let input = fixture.debugElement.query(By.css('input#searchBox'));
-		input.nativeElement.value = "batman";
-		input.triggerEventHandler("keyup", input.nativeElement.value);
+		const input = fixture.debugElement.query(By.css('input#searchBox'));
+		input.nativeElement.value = 'batman';
+		input.triggerEventHandler('keyup', input.nativeElement.value);
 
 		// Simulate pause in typing
 		tick(500);
@@ -63,10 +63,10 @@ describe('MovieSearchComponent', () => {
 		// Get rid of other background tasks (i.e. image loader)
 		discardPeriodicTasks();
 		fixture.detectChanges();
-		let de = fixture.debugElement.query(By.css('div#search-results'));
-		expect(de).toBeTruthy("There should be a search results div");
-		let movieItems = fixture.debugElement.queryAll(By.css('movie-item'));
-		expect(movieItems.length).toEqual(3, "Component should display 3 Batman movies");
+		const de = fixture.debugElement.query(By.css('div#search-results'));
+		expect(de).toBeTruthy('There should be a search results div');
+		const movieItems = fixture.debugElement.queryAll(By.css('app-movie-item'));
+		expect(movieItems.length).toEqual(3, 'Component should display 3 Batman movies');
 	}));
 
 });

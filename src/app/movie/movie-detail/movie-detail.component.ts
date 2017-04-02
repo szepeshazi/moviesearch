@@ -6,22 +6,22 @@ import { Component } from '@angular/core';
 
 
 @Component({
-    templateUrl: './movie-detail.component.html',
-    styleUrls: ['./movie-detail.component.scss']
+	templateUrl: './movie-detail.component.html',
+	styleUrls: ['./movie-detail.component.scss']
 })
 export class MovieDetailComponent implements OnInit {
 
-    public movieDetail: MovieDetail;
+	public movieDetail: MovieDetail;
 
-    constructor(private movieService: MovieService, private currentRoute: ActivatedRoute) { }
+	constructor(private movieService: MovieService, private currentRoute: ActivatedRoute) { }
 
-    ngOnInit() {
-        this.currentRoute.url.subscribe(
-            currentUrl => {
-                let imdbId = currentUrl[currentUrl.length - 1].path;
-                if (imdbId) {
-                    this.movieService.getById(imdbId).subscribe(movieDetail => this.movieDetail = movieDetail)
-                }
-            });
-    }
+	ngOnInit() {
+		this.currentRoute.url.subscribe(
+			currentUrl => {
+				const imdbId = currentUrl[currentUrl.length - 1].path;
+				if (imdbId) {
+					this.movieService.getById(imdbId).subscribe(movieDetail => this.movieDetail = movieDetail);
+				}
+			});
+	}
 }

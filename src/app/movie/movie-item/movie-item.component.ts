@@ -4,22 +4,22 @@ import { Component, Input } from '@angular/core';
 
 
 @Component({
-    selector: 'movie-item',
-    templateUrl: './movie-item.component.html',
-    styleUrls: ['./movie-item.component.scss']
+	selector: 'app-movie-item',
+	templateUrl: './movie-item.component.html',
+	styleUrls: ['./movie-item.component.scss']
 })
 export class MovieItemComponent {
-    
-    @Input() public entity: Movie;
 
-    constructor(private router: Router) { }
+	@Input() public entity: Movie;
 
-    navigateTo(entity: Movie) {
-        this.router.navigate(["/movie", "show", entity.imdbId]);
-    }
+	constructor(private router: Router) { }
 
-    retryImage() {
-        this.entity.imageUrl = undefined;
-        this.entity.imageRetryCount++;
-    }
+	navigateTo(entity: Movie) {
+		this.router.navigate(['/movie', 'show', entity.imdbId]);
+	}
+
+	retryImage() {
+		this.entity.imageUrl = undefined;
+		this.entity.imageRetryCount++;
+	}
 }

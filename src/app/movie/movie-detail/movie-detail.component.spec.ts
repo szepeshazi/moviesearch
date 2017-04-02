@@ -48,7 +48,7 @@ describe('MovieDetailComponent', () => {
 		let de = fixture.debugElement.query(By.css('h1'));
 		expect(de.nativeElement.textContent).toContain('Batman', 'title should contain the word "Batman"');
 		de = fixture.debugElement.query(By.css('img'));
-		expect(de.nativeElement.src).toBeTruthy("image should have a valid src property");
+		expect(de.nativeElement.src).toBeTruthy('image should have a valid src property');
 	}));
 
 });

@@ -1,8 +1,10 @@
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MovieService } from '../movie.service';
 import { FakeMovieService } from '../testing/fake-movie.service';
 import { MovieSearchComponent } from './movie-search.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { MaterialModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
@@ -12,10 +14,10 @@ describe('MovieSearchComponent', () => {
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			imports: [InfiniteScrollModule],
+			imports: [InfiniteScrollModule, NoopAnimationsModule, MaterialModule.forRoot()],
 			declarations: [MovieSearchComponent],
 			providers: [
-				{ provide: MovieService, useClass: FakeMovieService },
+				{ provide: MovieService, useClass: FakeMovieService }
 			],
 			schemas: [CUSTOM_ELEMENTS_SCHEMA]
 		}).compileComponents();
@@ -69,4 +71,19 @@ describe('MovieSearchComponent', () => {
 		expect(movieItems.length).toEqual(10, 'should display 10 Batman movies initially');
 	}));
 
+	it('should show an error message for the search expression "error-expression"', fakeAsync(() => {
+		const input = fixture.debugElement.query(By.css('input#searchBox'));
+		input.nativeElement.value = 'error-expression';
+		input.triggerEventHandler('keyup', input.nativeElement.value);
+
+		// Simulate pause in typing
+		tick(500);
+
+		fixture.detectChanges();
+		tick(5000);
+
+		// Get rid of other background tasks (i.e. image loader)
+		discardPeriodicTasks();
+		expect(input.nativeElement.value).toBe('error-expression');
+	}));
 });

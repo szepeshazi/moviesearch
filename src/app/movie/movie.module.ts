@@ -5,7 +5,7 @@ import { MovieSearchComponent } from './movie-search/movie-search.component';
 import { MovieService } from './movie.service';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MdCardModule, MdInputModule, MdProgressSpinnerModule } from '@angular/material';
+import { MdCardModule, MdInputModule, MdProgressSpinnerModule, MdSnackBarModule } from '@angular/material';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
 
@@ -16,6 +16,7 @@ import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 		MdInputModule,
 		MdProgressSpinnerModule,
 		MdCardModule,
+		MdSnackBarModule,
 		MovieRoutingModule
 	],
 	declarations: [MovieSearchComponent, MovieItemComponent, MovieDetailComponent],

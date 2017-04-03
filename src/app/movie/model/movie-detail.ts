@@ -1,6 +1,7 @@
+import { HttpResponse } from './http-response';
 import { Movie } from './movie';
 
-export class MovieDetail extends Movie {
+export class MovieDetail extends Movie implements HttpResponse {
 	rated: string;
 	released: string;
 	runtime: number;
@@ -15,6 +16,9 @@ export class MovieDetail extends Movie {
 	metascore: number;
 	imdbRating: string;
 	imdbVotes: string;
+
+	status: string;
+	message: string;
 
 	static createFromServerResponse(item): MovieDetail {
 		const movieDetail = Object.assign(new MovieDetail(), Movie.createFromServerResponse(item));

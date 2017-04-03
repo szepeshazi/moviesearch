@@ -8,7 +8,7 @@
 			<div class="search-placeholder"></div>
 		</ng-template>
 	</div>
-	<div *ngIf="searchResult !== undefined" id="search-results" class="flex-container wrap" infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="300"
+	<div *ngIf="searchResult !== undefined && searchResult.movies !== undefined" id="search-results" class="flex-container wrap" infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="300"
 	 (scrolled)="onScroll()">
 		<app-movie-item *ngFor="let movie of searchResult.movies" [entity]="movie"></app-movie-item>
 	</div>

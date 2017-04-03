@@ -2,6 +2,7 @@ import { Movie } from '../model/movie';
 import { SearchResult } from '../model/search-result';
 import { MovieService } from '../movie.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MdSnackBar } from '@angular/material';
 import { Subject, Subscription } from 'rxjs/Rx';
 
 
@@ -22,7 +23,7 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 
 	public searchResult: SearchResult;
 
-	constructor(private movieService: MovieService) { }
+	constructor(private movieService: MovieService, public snackBar: MdSnackBar) { }
 
 	ngOnInit() {
 		const previousSearch = sessionStorage.getItem('searchResult');
@@ -70,10 +71,16 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 				}
 				this.currentHttpRequest = this.movieService.search(term).subscribe(
 					searchResult => {
-						this.searchResult = searchResult;
-						this.currentHttpRequest = undefined;
-						if (this.imageTimer === undefined) {
-							this.startImageTimer();
+						if (searchResult.status === 'success') {
+							this.searchResult = searchResult;
+							this.currentHttpRequest = undefined;
+							if (this.imageTimer === undefined) {
+								this.startImageTimer();
+							}
+						} else {
+							this.snackBar.open('Service not available, please try again later.', undefined, {
+								duration: 3000,
+							});
 						}
 					});
 			});
@@ -104,7 +111,7 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 	startImageTimer(): void {
 		// Delay image loads to offset IMDB throttling of img requests coming through a referral site
 		this.imageTimer = setInterval(() => {
-			if (this.searchResult !== undefined && this.searchResult.movies.length > 0) {
+			if (this.searchResult !== undefined && this.searchResult.movies !== undefined && this.searchResult.movies.length > 0) {
 				const index = this.searchResult.movies.findIndex(
 					movie => ((movie.poster !== undefined) && (movie.imageUrl === undefined) && (movie.imageRetryCount < Movie.maxImageRetries))
 				);
@@ -126,11 +133,17 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 			if (currentPage * SearchResult.pageSize < this.searchResult.totalResults) {
 				this.currentHttpRequest = this.movieService.search(this.searchResult.term, currentPage + 1).subscribe(
 					pageResult => {
-						this.searchResult.totalResults = Number(pageResult.totalResults);
-						this.searchResult.movies = this.searchResult.movies.concat(pageResult.movies);
-						this.currentHttpRequest = undefined;
-						if (this.imageTimer === undefined) {
-							this.startImageTimer();
+						if (pageResult.status === 'success') {
+							this.searchResult.totalResults = Number(pageResult.totalResults);
+							this.searchResult.movies = this.searchResult.movies.concat(pageResult.movies);
+							this.currentHttpRequest = undefined;
+							if (this.imageTimer === undefined) {
+								this.startImageTimer();
+							}
+						} else {
+							this.snackBar.open('Service not available, please try again later.', undefined, {
+								duration: 3000,
+							});
 						}
 					});
 			}

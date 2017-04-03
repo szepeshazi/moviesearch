@@ -8,10 +8,23 @@ import { MOVIE_DETAIL } from './mock-movie-details';
 
 export class FakeMovieService {
 
-	constructor() { }
-
 	getById(imdbId: string): Observable<MovieDetail> {
-		return Observable.of(MovieDetail.createFromServerResponse(MOVIE_DETAIL));
+		let movieDetail: MovieDetail;
+		switch (imdbId) {
+			case 'tt0372784':
+				movieDetail = MovieDetail.createFromServerResponse(MOVIE_DETAIL);
+				movieDetail.status = 'success';
+				break;
+			case 'error-id':
+				movieDetail = new MovieDetail();
+				movieDetail.status = 'error';
+				break;
+			default:
+				movieDetail = new MovieDetail();
+				movieDetail.status = 'success';
+				break;
+		}
+		return Observable.of(movieDetail);
 	}
 
 	search(expression: string, page?: number): Observable<SearchResult> {
@@ -24,13 +37,20 @@ export class FakeMovieService {
 		const searchResult = new SearchResult();
 		searchResult.term = expression;
 
-		if (expression.toLocaleLowerCase() === 'batman') {
-			searchResult.movies = MOVIES.slice(start, end + 1).map(movie => Movie.createFromServerResponse(movie));
-			searchResult.totalResults = searchResult.movies.length;
-		} else {
-			searchResult.movies = [] as Movie[];
-			searchResult.totalResults = 0;
+		switch (expression) {
+			case 'batman':
+				searchResult.movies = MOVIES.slice(start, end + 1).map(movie => Movie.createFromServerResponse(movie));
+				searchResult.totalResults = searchResult.movies.length;
+				searchResult.status = 'success';
+				break;
+			case 'error-expression':
+				searchResult.status = 'error';
+				break;
+			default:
+				searchResult.status = 'success';
+				break;
 		}
+
 		return Observable.of(searchResult);
 	}
 }

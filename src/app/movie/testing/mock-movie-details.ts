@@ -1,0 +1,21 @@
+export const MOVIE_DETAIL = {
+		Title: 'Batman begins',
+		Year: '2005',
+		imdbID: 'tt0372784',
+		Type: 'movie',
+		Poster: 'https://images-na.ssl-images-amazon.com/images/M/MV5BNTM3OTc0MzM2OV5BMl5BanBnXkFtZTYwNzUwMTI3._V1_SX300.jpg',
+		Actors: 'Jackie Chan, Bruce Lee',
+		Awards: 'No awards',
+		Country: 'Hungary, United States',
+		Director: 'Kim Basinger',
+		Writer: 'Alan Rickman',
+		Genre: 'Action, Comedy',
+		imdbRating: '7.8',
+		imdbVotes: '50,000',
+		Language: 'English, German',
+		Metascore: 50,
+		Plot: 'Very exciting',
+		Rated: 'R',
+		Released: '2005',
+		Runtime: '120 mins'
+	};

@@ -52,7 +52,7 @@ describe('MovieSearchComponent', () => {
 		expect(de).toBeFalsy('There should not be a search results div for empty search expression');
 	}));
 
-	it('should display 3 fake results for the search expression "batman"', fakeAsync(() => {
+	it('should display 10 initial results for the search expression "batman"', fakeAsync(() => {
 		const input = fixture.debugElement.query(By.css('input#searchBox'));
 		input.nativeElement.value = 'batman';
 		input.triggerEventHandler('keyup', input.nativeElement.value);
@@ -64,9 +64,9 @@ describe('MovieSearchComponent', () => {
 		discardPeriodicTasks();
 		fixture.detectChanges();
 		const de = fixture.debugElement.query(By.css('div#search-results'));
-		expect(de).toBeTruthy('There should be a search results div');
+		expect(de).toBeTruthy('should be a search results div present');
 		const movieItems = fixture.debugElement.queryAll(By.css('app-movie-item'));
-		expect(movieItems.length).toEqual(3, 'Component should display 3 Batman movies');
+		expect(movieItems.length).toEqual(10, 'should display 10 Batman movies initially');
 	}));
 
 });

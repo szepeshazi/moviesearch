@@ -5,7 +5,19 @@ export class MoviesearchPage {
 		return browser.get('/');
 	}
 
-	getParagraphText() {
-		return element(by.css('app-root h1')).getText();
+	getTitle() {
+		return element(by.css('div.container h3')).getText();
+	}
+
+	getSearchBox() {
+		return element(by.css('input#searchBox'));
+	}
+
+	getSearchResultsContainer() {
+		return element(by.id('search-results'));
+	}
+
+	getSearchResults() {
+		return element.all(by.css('div#search-results app-movie-item'));
 	}
 }

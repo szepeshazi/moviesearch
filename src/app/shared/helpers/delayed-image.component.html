@@ -1,0 +1,4 @@
+<img *ngIf="delayedImage.src; else noposter" [src]="delayedImage.src" title="{{ title }}" alt="{{ alt }}" (click)="onClick()">
+<ng-template #noposter>
+	<img src="/assets/images/no-image.png" title="Poster" alt="{{ title }}" (click)="navigateTo(entity)">
+</ng-template>

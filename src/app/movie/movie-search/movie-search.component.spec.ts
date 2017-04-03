@@ -47,8 +47,6 @@ describe('MovieSearchComponent', () => {
 		// Simulate pause in typing
 		tick(500);
 
-		// Get rid of other background tasks (i.e. image loader)
-		discardPeriodicTasks();
 		fixture.detectChanges();
 		const de = fixture.debugElement.query(By.css('div#search-results'));
 		expect(de).toBeFalsy('There should not be a search results div for empty search expression');
@@ -62,8 +60,6 @@ describe('MovieSearchComponent', () => {
 		// Simulate pause in typing
 		tick(500);
 
-		// Get rid of other background tasks (i.e. image loader)
-		discardPeriodicTasks();
 		fixture.detectChanges();
 		const de = fixture.debugElement.query(By.css('div#search-results'));
 		expect(de).toBeTruthy('should be a search results div present');
@@ -72,6 +68,9 @@ describe('MovieSearchComponent', () => {
 	}));
 
 	it('should show an error message for the search expression "error-expression"', fakeAsync(() => {
+		const snackBar = component.snackBar;
+		expect(snackBar._openedSnackBarRef).toBeFalsy('should NOT show SnackBar notification');
+
 		const input = fixture.debugElement.query(By.css('input#searchBox'));
 		input.nativeElement.value = 'error-expression';
 		input.triggerEventHandler('keyup', input.nativeElement.value);
@@ -80,10 +79,10 @@ describe('MovieSearchComponent', () => {
 		tick(500);
 
 		fixture.detectChanges();
-		tick(5000);
+		tick(1000);
 
-		// Get rid of other background tasks (i.e. image loader)
-		discardPeriodicTasks();
-		expect(input.nativeElement.value).toBe('error-expression');
+		expect(snackBar._openedSnackBarRef).toBeTruthy('should show SnackBar notification');
+		// Wait until snackbar closes
+		tick(3000);
 	}));
 });

@@ -1,15 +1,9 @@
 export class Movie {
-	static readonly maxImageRetries = 2;
-
 	title: string;
 	year: string;
 	imdbId: string;
 	type: string;
 	poster: string;
-
-	// Virtual properties for multiple attempts at loading images - IMDB throttles img requests coming through a referral site
-	imageUrl: string = undefined;
-	imageRetryCount = 0;
 
 	static createFromServerResponse(item): Movie {
 		const movie = new Movie();
@@ -18,9 +12,6 @@ export class Movie {
 		movie.imdbId = item.imdbID;
 		movie.type = item.Type === 'N/A' ? undefined : item.Type;
 		movie.poster = item.Poster === 'N/A' ? undefined : item.Poster;
-		if (sessionStorage.getItem(movie.imdbId)) {
-			movie.imageUrl = movie.poster;
-		}
 		return movie;
 	}
 }

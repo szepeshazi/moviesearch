@@ -67,6 +67,29 @@ describe('MovieSearchComponent', () => {
 		expect(movieItems.length).toEqual(10, 'should display 10 Batman movies initially');
 	}));
 
+
+	it('should display 2 addititional results for the search expression "batman" after scrolling to the bottom', fakeAsync(() => {
+		const input = fixture.debugElement.query(By.css('input#searchBox'));
+		input.nativeElement.value = 'batman';
+		input.triggerEventHandler('keyup', input.nativeElement.value);
+
+		// Simulate pause in typing
+		tick(500);
+
+		fixture.detectChanges();
+		const de = fixture.debugElement.query(By.css('div#search-results'));
+		expect(de).toBeTruthy('should be a search results div present');
+		const movieItems = fixture.debugElement.queryAll(By.css('app-movie-item'));
+		expect(movieItems.length).toEqual(10, 'should display 10 Batman movies initially');
+
+		component.loadNext();
+		tick();
+
+		fixture.detectChanges();
+		const updatedMovieItems = fixture.debugElement.queryAll(By.css('app-movie-item'));
+		expect(updatedMovieItems.length).toEqual(12, 'should display 2 additional Batman movies when scrolling down');
+	}));
+
 	it('should show an error message for the search expression "error-expression"', fakeAsync(() => {
 		const snackBar = component.snackBar;
 		expect(snackBar._openedSnackBarRef).toBeFalsy('should NOT show SnackBar notification');

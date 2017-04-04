@@ -29,18 +29,18 @@ export class FakeMovieService {
 
 	search(expression: string, page?: number): Observable<SearchResult> {
 		if (!page) {
-			page = 0;
+			page = 1;
 		}
-		const start = page * SearchResult.pageSize;
-		const end = (page + 1) * SearchResult.pageSize - 1;
+		const start = (page - 1) * SearchResult.pageSize;
+		const end = page * SearchResult.pageSize;
 
 		const searchResult = new SearchResult();
 		searchResult.term = expression;
 
 		switch (expression) {
 			case 'batman':
-				searchResult.movies = MOVIES.slice(start, end + 1).map(movie => Movie.createFromServerResponse(movie));
-				searchResult.totalResults = searchResult.movies.length;
+				searchResult.movies = MOVIES.slice(start, end).map(movie => Movie.createFromServerResponse(movie));
+				searchResult.totalResults = MOVIES.length;
 				searchResult.status = 'success';
 				break;
 			case 'error-expression':

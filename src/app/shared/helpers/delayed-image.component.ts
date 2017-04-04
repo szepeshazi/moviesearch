@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class DelayedImageComponent implements OnInit {
 
-	private delayedImage: DelayedImage;
+	delayedImage: DelayedImage;
 
 	@Input() src: string;
 	@Input() imageId: string;

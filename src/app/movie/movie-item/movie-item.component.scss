@@ -1,14 +1,6 @@
 md-card {
     width: 256px;
 
-    img {
-        max-width: 256px;
-        margin: 5px auto;
-        &:hover {
-            cursor: pointer;
-        }
-    }
-
     div.title {
         padding: 10px 5px;
 
@@ -17,8 +9,6 @@ md-card {
             cursor: pointer;
         }
     }
-
-
 
     div.type {
         font-size: 0.8em;

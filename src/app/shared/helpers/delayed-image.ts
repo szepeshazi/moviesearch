@@ -16,10 +16,6 @@ export class DelayedImage {
 		return sessionStorage.getItem(this.id) === 'cached';
 	}
 
-	clearCache() {
-		sessionStorage.removeItem(this.id);
-	}
-
 	display() {
 		this.src = this.originalSrc;
 	}

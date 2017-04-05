@@ -21,6 +21,7 @@ describe('AppComponent', () => {
 	}));
 
 	it('should render title in a h3 tag', async(() => {
+		window.sessionStorage.clear();
 		const fixture = TestBed.createComponent(AppComponent);
 		fixture.detectChanges();
 		const compiled = fixture.debugElement.nativeElement;

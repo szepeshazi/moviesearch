@@ -3,7 +3,8 @@ import { DelayedImageService } from './delayed-image.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
 	selector: 'app-img-delayed',
-	templateUrl: './delayed-image.component.html'
+	templateUrl: './delayed-image.component.html',
+	styleUrls: ['./delayed-image.component.scss']
 })
 export class DelayedImageComponent implements OnInit {
 
@@ -22,6 +23,12 @@ export class DelayedImageComponent implements OnInit {
 		this.delayedImage = new DelayedImage(this.imageId, this.src);
 		if (!this.delayedImage.isCached()) {
 			this.delayedImageService.add(this.delayedImage);
+			this.delayedImageService.populatedImageStream.subscribe(
+				image => {
+					if (image.id === this.delayedImage.id) {
+						this.delayedImage = Object.assign({}, image) as DelayedImage;
+					}
+				});
 		}
 	}
 

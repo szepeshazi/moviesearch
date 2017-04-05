@@ -1,10 +1,13 @@
+import { Observable, Subject } from 'rxjs/Rx';
 import { DelayedImage } from './delayed-image';
 export class DelayedImageService {
 
-	images: DelayedImage[] = [];
-
 	private imageTimer = undefined;
 	private readonly imageInterval = 500;
+
+	private images: DelayedImage[] = [];
+	private populatedImage = new Subject<DelayedImage>();
+	public populatedImageStream = this.populatedImage.asObservable();
 
 	add(image: DelayedImage) {
 		this.images.push(image);
@@ -26,6 +29,7 @@ export class DelayedImageService {
 			} else {
 				image.cache();
 				image.display();
+				this.populatedImage.next(image);
 			}
 		}, this.imageInterval);
 	}

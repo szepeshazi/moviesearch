@@ -109,6 +109,21 @@ describe('MovieSearchComponent', () => {
 		tick(3000);
 	}));
 
+	it('should have a success status message but no movies for the search expression "empty-expression"', fakeAsync(() => {
+
+		const input = fixture.debugElement.query(By.css('input#searchBox'));
+		input.nativeElement.value = 'empty-expression';
+		input.triggerEventHandler('keyup', input.nativeElement.value);
+
+		// Simulate pause in typing
+		tick(500);
+
+		fixture.detectChanges();
+		const de = fixture.debugElement.query(By.css('div#search-results'));
+		expect(de).toBeFalsy('should not be a search results div present');
+	}));
+
+
 	it('should cancel search if expression is deleted while executing search', fakeAsync(() => {
 		const input = fixture.debugElement.query(By.css('input#searchBox'));
 		input.nativeElement.value = 'love';

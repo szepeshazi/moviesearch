@@ -53,12 +53,105 @@ describe('MovieDetailComponent', () => {
 
 });
 
+
+describe('MovieDetailComponent with Error', () => {
+	let component: MovieDetailComponent;
+	let fixture: ComponentFixture<MovieDetailComponent>;
+
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+			declarations: [MovieDetailComponent],
+			providers: [
+				{ provide: MovieService, useClass: FakeMovieService },
+				{ provide: ActivatedRoute, useClass: ActivatedRouteStubError }
+			],
+			schemas: [CUSTOM_ELEMENTS_SCHEMA]
+		}).compileComponents();
+
+	}));
+
+	beforeEach(() => {
+		fixture = TestBed.createComponent(MovieDetailComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
+
+	it('should create the movie detail component', () => {
+		expect(component).toBeTruthy();
+	});
+
+
+	it('should have a MovieDetail object with error status after ngOnInit', fakeAsync(() => {
+		fixture.detectChanges();
+		tick();
+		expect(component.movieDetail.status).toBe('error', 'should have an error status');
+	}));
+
+});
+
+describe('MovieDetailComponent with no result', () => {
+	let component: MovieDetailComponent;
+	let fixture: ComponentFixture<MovieDetailComponent>;
+
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+			declarations: [MovieDetailComponent],
+			providers: [
+				{ provide: MovieService, useClass: FakeMovieService },
+				{ provide: ActivatedRoute, useClass: ActivatedRouteStubEmpty }
+			],
+			schemas: [CUSTOM_ELEMENTS_SCHEMA]
+		}).compileComponents();
+
+	}));
+
+	beforeEach(() => {
+		fixture = TestBed.createComponent(MovieDetailComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
+
+	it('should create the movie detail component', () => {
+		expect(component).toBeTruthy();
+	});
+
+	it('should have a MovieDetail object with success status but no movie details after ngOnInit', fakeAsync(() => {
+		fixture.detectChanges();
+		tick();
+		expect(component.movieDetail.status).toBe('success', 'should have success status');
+		expect(component.movieDetail.title).toBeFalsy('should not have a movie title');
+	}));
+
+});
+
 class ActivatedRouteStub {
 
 	urlSegment: UrlSegment[] = [
 		{ path: '/movie', parameterMap: undefined, parameters: undefined },
 		{ path: 'detail', parameterMap: undefined, parameters: undefined },
 		{ path: 'tt0372784', parameterMap: undefined, parameters: undefined }
+	];
+
+	url = Observable.of(this.urlSegment);
+}
+
+class ActivatedRouteStubError {
+
+	urlSegment: UrlSegment[] = [
+		{ path: '/movie', parameterMap: undefined, parameters: undefined },
+		{ path: 'detail', parameterMap: undefined, parameters: undefined },
+		{ path: 'error-id', parameterMap: undefined, parameters: undefined }
+	];
+
+	url = Observable.of(this.urlSegment);
+}
+
+class ActivatedRouteStubEmpty {
+
+	urlSegment: UrlSegment[] = [
+		{ path: '/movie', parameterMap: undefined, parameters: undefined },
+		{ path: 'detail', parameterMap: undefined, parameters: undefined },
+		{ path: 'nonexistent-id', parameterMap: undefined, parameters: undefined }
 	];
 
 	url = Observable.of(this.urlSegment);

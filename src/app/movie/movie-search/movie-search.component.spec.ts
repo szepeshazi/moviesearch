@@ -108,4 +108,53 @@ describe('MovieSearchComponent', () => {
 		// Wait until snackbar closes
 		tick(3000);
 	}));
+
+	it('should cancel search if expression is deleted while executing search', fakeAsync(() => {
+		const input = fixture.debugElement.query(By.css('input#searchBox'));
+		input.nativeElement.value = 'love';
+		input.triggerEventHandler('keyup', input.nativeElement.value);
+
+		// Simulate pause in typing
+		tick(300);
+		fixture.detectChanges();
+
+		input.nativeElement.value = '';
+		// Simulate pause in typing
+		tick(300);
+		fixture.detectChanges();
+		discardPeriodicTasks();
+
+		const de = fixture.debugElement.query(By.css('div#search-results'));
+		expect(de).toBeFalsy('should not be a search results div present');
+	}));
+
+	it('should cancel previous search if a new expression is entered while executing search', done => {
+		const input = fixture.debugElement.query(By.css('input#searchBox'));
+		input.nativeElement.value = 'love';
+		input.triggerEventHandler('keyup', input.nativeElement.value);
+		fixture.detectChanges();
+
+		// Simulate pause in typing
+		setTimeout(function () {
+			input.nativeElement.value = 'hate';
+			fixture.detectChanges();
+
+			// Wait for the delayed observable to finish the query
+			setTimeout(function () {
+				fixture.detectChanges();
+				const de = fixture.debugElement.query(By.css('div#search-results'));
+				expect(de).toBeTruthy('should have a search results div present');
+				done();
+			}, 2000);
+
+		}, 500);
+	});
+
+	function timeDelay(ms: number): Promise<undefined> {
+		return new Promise<undefined>(function (resolve, reject) {
+			setTimeout(resolve(undefined), ms);
+		});
+	}
+
+
 });

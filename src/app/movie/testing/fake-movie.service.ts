@@ -28,6 +28,9 @@ export class FakeMovieService {
 	}
 
 	search(expression: string, page?: number): Observable<SearchResult> {
+
+		let delayAmount = 0;
+
 		if (!page) {
 			page = 1;
 		}
@@ -43,6 +46,13 @@ export class FakeMovieService {
 				searchResult.totalResults = MOVIES.length;
 				searchResult.status = 'success';
 				break;
+			case 'love':
+			case 'hate': // intentional fall through
+				searchResult.movies = MOVIES.slice(start, end).map(movie => Movie.createFromServerResponse(movie));
+				searchResult.totalResults = MOVIES.length;
+				searchResult.status = 'success';
+				delayAmount = 1000;
+				break;
 			case 'error-expression':
 				searchResult.status = 'error';
 				break;
@@ -51,6 +61,6 @@ export class FakeMovieService {
 				break;
 		}
 
-		return Observable.of(searchResult);
+		return Observable.of(searchResult).delay(delayAmount);
 	}
 }

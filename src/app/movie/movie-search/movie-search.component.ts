@@ -24,14 +24,9 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		const previousSearch = sessionStorage.getItem('searchResult');
 		if (previousSearch) {
-			try {
-				this.searchResult = JSON.parse(previousSearch);
-				if (this.searchResult.term) {
-					this.searchBoxRef.nativeElement.value = this.searchResult.term;
-				}
-			} catch (error) {
-				this.searchResult = undefined;
-			}
+			this.searchResult = JSON.parse(previousSearch);
+			this.searchBoxRef.nativeElement.value = this.searchResult.term;
+			this.searchResult = undefined;
 		}
 		this.subscribeToSearch();
 	}

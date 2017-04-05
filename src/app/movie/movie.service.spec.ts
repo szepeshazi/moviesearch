@@ -1,3 +1,4 @@
+import { SearchResult } from './model/search-result';
 import { MOVIE_DETAIL } from './testing/mock-movie-details';
 import { MOVIES } from './testing/mock-movies';
 import { async, getTestBed, inject, TestBed } from '@angular/core/testing';
@@ -144,6 +145,50 @@ describe('MovieService', () => {
 				movie => {
 					expect(movie).toBeTruthy('should get a movie detail object as a result');
 					expect(movie.title).toBe('Batman begins', 'should have the title "Batman begins"');
+					done();
+				}
+			);
+		});
+	});
+
+
+	it('should get an error response for getById when an exception is thrown', done => {
+		let movieService: MovieService;
+
+		getTestBed().compileComponents().then(() => {
+			mockBackend.connections.subscribe(
+				(connection: MockConnection) => {
+					connection.mockError(new Error());
+				});
+
+			movieService = getTestBed().get(MovieService);
+			expect(movieService).toBeDefined();
+
+			movieService.getById('any-id').subscribe(
+				movie => {
+					expect(movie.status).toBe('error', 'should get an error status as result');
+					done();
+				}
+			);
+		});
+	});
+
+	it('should get an error response for search when an exception is thrown', done => {
+		let movieService: MovieService;
+
+		getTestBed().compileComponents().then(() => {
+			mockBackend.connections.subscribe(
+				(connection: MockConnection) => {
+					connection.mockError(new Error());
+				});
+
+			movieService = getTestBed().get(MovieService);
+			expect(movieService).toBeDefined();
+
+			movieService.search('any expression').subscribe(
+				searchResult => {
+					expect(searchResult.status).toBe('error', 'should get an error status as result');
+					expect(searchResult.movies).toBeFalsy('should be no movies in the result list');
 					done();
 				}
 			);

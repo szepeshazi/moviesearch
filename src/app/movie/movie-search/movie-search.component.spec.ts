@@ -107,6 +107,36 @@ describe('MovieSearchComponent', () => {
 		expect(snackBar._openedSnackBarRef).toBeTruthy('should show SnackBar notification');
 		// Wait until snackbar closes
 		tick(3000);
+
+		expect(snackBar._openedSnackBarRef).toBeFalsy('should hide SnackBar notification after 3 seconds');
+	}));
+
+	it('should show an error message for a consecutive search for "error-expression"', fakeAsync(() => {
+		const snackBar = component.snackBar;
+		expect(snackBar._openedSnackBarRef).toBeFalsy('should NOT show SnackBar notification');
+		const input = fixture.debugElement.query(By.css('input#searchBox'));
+		input.nativeElement.value = 'batman';
+		input.triggerEventHandler('keyup', input.nativeElement.value);
+
+		// Simulate pause in typing
+		tick(500);
+
+		fixture.detectChanges();
+		const de = fixture.debugElement.query(By.css('div#search-results'));
+		expect(de).toBeTruthy('should be a search results div present');
+		const movieItems = fixture.debugElement.queryAll(By.css('app-movie-item'));
+		expect(movieItems.length).toEqual(10, 'should display 10 Batman movies initially');
+
+		component.searchResult.term = 'error-expression';
+		component.loadNext();
+		tick();
+		fixture.detectChanges();
+		tick(1000);
+
+		expect(snackBar._openedSnackBarRef).toBeTruthy('should show SnackBar notification');
+		// Wait until snackbar closes
+		tick(3000);
+		expect(snackBar._openedSnackBarRef).toBeFalsy('should hide SnackBar notification after 3 seconds');
 	}));
 
 	it('should have a success status message but no movies for the search expression "empty-expression"', fakeAsync(() => {

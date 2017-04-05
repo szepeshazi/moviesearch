@@ -19,9 +19,7 @@ export class MovieDetailComponent implements OnInit {
 		this.currentRoute.url.subscribe(
 			currentUrl => {
 				const imdbId = currentUrl[currentUrl.length - 1].path;
-				if (imdbId) {
-					this.movieService.getById(imdbId).subscribe(movieDetail => this.movieDetail = movieDetail);
-				}
+				this.movieService.getById(imdbId).subscribe(movieDetail => this.movieDetail = movieDetail);
 			});
 	}
 }

@@ -39,9 +39,7 @@ export class MovieSearchComponent implements OnInit, OnDestroy {
 			try {
 				const currentSearch = JSON.stringify(this.searchResult);
 				sessionStorage.setItem('searchResult', currentSearch);
-			} catch (error) {
-				sessionStorage.removeItem('searchResult');
-			}
+			} catch (error) { }
 		}
 	}
 

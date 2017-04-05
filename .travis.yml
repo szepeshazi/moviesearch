@@ -4,6 +4,8 @@ node_js:
   - 7.4
 sudo: required
 addons:
+    code_climate:
+        repo_token: 3b68f162f31837cfe10190fda5667892e8823183d2f7844d44028d0f74f258ab
 apt:
   sources:
     - google-chrome

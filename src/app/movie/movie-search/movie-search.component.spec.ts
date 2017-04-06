@@ -154,24 +154,28 @@ describe('MovieSearchComponent', () => {
 	}));
 
 
-	it('should cancel search if expression is deleted while executing search', fakeAsync(() => {
+	it('should cancel search if expression is deleted while executing search', done => {
 		const input = fixture.debugElement.query(By.css('input#searchBox'));
 		input.nativeElement.value = 'love';
 		input.triggerEventHandler('keyup', input.nativeElement.value);
-
-		// Simulate pause in typing
-		tick(300);
 		fixture.detectChanges();
 
-		input.nativeElement.value = '';
 		// Simulate pause in typing
-		tick(300);
-		fixture.detectChanges();
-		discardPeriodicTasks();
+		setTimeout(function () {
+			input.nativeElement.value = '';
+			input.triggerEventHandler('keyup', input.nativeElement.value);
+			fixture.detectChanges();
 
-		const de = fixture.debugElement.query(By.css('div#search-results'));
-		expect(de).toBeFalsy('should not be a search results div present');
-	}));
+			// Wait for the delayed observable to finish the query
+			setTimeout(function () {
+				fixture.detectChanges();
+				const de = fixture.debugElement.query(By.css('div#search-results'));
+				expect(de).toBeFalsy('should not have a search results div present');
+				done();
+			}, 500);
+
+		}, 500);
+	});
 
 	it('should cancel previous search if a new expression is entered while executing search', done => {
 		const input = fixture.debugElement.query(By.css('input#searchBox'));
@@ -182,6 +186,7 @@ describe('MovieSearchComponent', () => {
 		// Simulate pause in typing
 		setTimeout(function () {
 			input.nativeElement.value = 'hate';
+			input.triggerEventHandler('keyup', input.nativeElement.value);
 			fixture.detectChanges();
 
 			// Wait for the delayed observable to finish the query

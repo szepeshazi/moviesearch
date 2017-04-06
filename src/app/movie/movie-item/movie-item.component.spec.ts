@@ -30,7 +30,8 @@ describe('MovieItemComponent', () => {
 	});
 
 	it('should create the test host component for the movie item', () => {
-		expect(component).toBeTruthy();
+		expect(component).toBeTruthy('should initialize component');
+		expect(component.movie).toBeTruthy('should have an initialized movie object');
 	});
 
 

@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/szepeshazi/moviesearch.svg?branch=master)](https://travis-ci.org/szepeshazi/moviesearch)
 [![Dependencies](https://david-dm.org/szepeshazi/moviesearch.svg)](https://david-dm.org/)
 [![Code Climate](https://codeclimate.com/github/szepeshazi/moviesearch/badges/gpa.svg)](https://codeclimate.com/github/szepeshazi/moviesearch)
+[![codecov](https://codecov.io/gh/szepeshazi/moviesearch/branch/master/graph/badge.svg)](https://codecov.io/gh/szepeshazi/moviesearch)
 
 # Moviesearch
 
